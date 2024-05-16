@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -17,27 +16,37 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public UserDTO create(UserDTO user) {
-        User newUser = new User();
-        newUser.setName(user.getName());
-        newUser.setEmail(user.getEmail());
-        userRepository.save(newUser);
-        UserDTO userDTO = new UserDTO(newUser);
-        return userDTO;
+    public User create(User user) {
+        userRepository.save(user);
+        return user;
     }
 
-    public List<UserDTO> findAll() {
-        List<User> users = userRepository.findAll();
-        List<UserDTO> usersDTO = users.stream().map(user -> new UserDTO(user)).collect(Collectors.toList());
-        return usersDTO;
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
-    public UserDTO findById(String id) {
+    public User findById(String id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new ObjectNotFoundException("Objeto não encontrado");
         }
-        UserDTO userDTO = new UserDTO(user.get());
+        return user.get();
+    }
+
+    public User DTOfromUser(UserDTO userDTO) {
+        User user = new User();
+        user.setId(userDTO.getId());
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        return user;
+    }
+
+    public UserDTO UserFromDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setName(user.getName());
+        userDTO.setEmail(user.getEmail());
         return userDTO;
     }
+
 }
