@@ -1,5 +1,6 @@
 package com.springbootmongodb.demo.config;
 
+import com.springbootmongodb.demo.dtos.AuthorDTO;
 import com.springbootmongodb.demo.entities.Post;
 import com.springbootmongodb.demo.entities.User;
 import com.springbootmongodb.demo.repositories.PostRepository;
@@ -27,6 +28,7 @@ public class Instantiation implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         userRepository.deleteAll();
+        postRepository.deleteAll();
 
         User j1 = new User(null, "John Doe 1", "johndoe1@example.com");
         User j2 = new User(null, "John Doe 2", "johndoe2@example.com");
@@ -34,13 +36,11 @@ public class Instantiation implements CommandLineRunner {
 
         userRepository.saveAll(Arrays.asList(j1, j2, j3));
 
-
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-        Post p1 = new Post(null, simpleDateFormat.parse("21/03/2018"), "Partiu Viagem", "Vou viajar para São Paulo", j1);
-        Post p2 = new Post(null, simpleDateFormat.parse("21/03/2018"), "Bom dia", "Bom dia", j1);
+        Post p1 = new Post(null, simpleDateFormat.parse("21/03/2018"), "Partiu Viagem", "Vou viajar para São Paulo", new AuthorDTO(j1));
+        Post p2 = new Post(null, simpleDateFormat.parse("21/03/2018"), "Bom dia", "Bom dia", new AuthorDTO(j1));
 
         postRepository.saveAll(Arrays.asList(p1, p2));
 
