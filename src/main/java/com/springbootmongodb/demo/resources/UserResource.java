@@ -1,6 +1,7 @@
 package com.springbootmongodb.demo.resources;
 
 import com.springbootmongodb.demo.dtos.UserDTO;
+import com.springbootmongodb.demo.entities.Post;
 import com.springbootmongodb.demo.entities.User;
 import com.springbootmongodb.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,12 @@ public class UserResource {
     public ResponseEntity<Void> delete(@PathVariable String id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+        User user = userService.findById(id);
+        return ResponseEntity.ok().body(user.getPosts());
     }
 }
