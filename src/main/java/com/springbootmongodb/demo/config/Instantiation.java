@@ -1,18 +1,26 @@
 package com.springbootmongodb.demo.config;
 
+import com.springbootmongodb.demo.entities.Post;
 import com.springbootmongodb.demo.entities.User;
+import com.springbootmongodb.demo.repositories.PostRepository;
 import com.springbootmongodb.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.TimeZone;
 
 @Configuration
 public class Instantiation implements CommandLineRunner {
 
     @Autowired
     private UserRepository userRepository;
+
+
+    @Autowired
+    private PostRepository postRepository;
 
 
     @Override
@@ -26,6 +34,15 @@ public class Instantiation implements CommandLineRunner {
 
         userRepository.saveAll(Arrays.asList(j1, j2, j3));
 
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+        Post p1 = new Post(null, simpleDateFormat.parse("21/03/2018"), "Partiu Viagem", "Vou viajar para São Paulo", j1);
+        Post p2 = new Post(null, simpleDateFormat.parse("21/03/2018"), "Bom dia", "Bom dia", j1);
+
+        postRepository.saveAll(Arrays.asList(p1, p2));
 
     }
 }
