@@ -1,6 +1,7 @@
 package com.springbootmongodb.demo.config;
 
 import com.springbootmongodb.demo.dtos.AuthorDTO;
+import com.springbootmongodb.demo.dtos.CommentDTO;
 import com.springbootmongodb.demo.entities.Post;
 import com.springbootmongodb.demo.entities.User;
 import com.springbootmongodb.demo.repositories.PostRepository;
@@ -41,6 +42,15 @@ public class Instantiation implements CommandLineRunner {
 
         Post p1 = new Post(null, simpleDateFormat.parse("21/03/2018"), "Partiu Viagem", "Vou viajar para São Paulo", new AuthorDTO(j1));
         Post p2 = new Post(null, simpleDateFormat.parse("21/03/2018"), "Bom dia", "Bom dia", new AuthorDTO(j1));
+
+        CommentDTO c1 = new CommentDTO("Boa", simpleDateFormat.parse("21/03/2018"), new AuthorDTO(j1));
+        CommentDTO c2 = new CommentDTO("Oloco", simpleDateFormat.parse("21/03/2018"), new AuthorDTO(j1));
+        CommentDTO c3 = new CommentDTO("Vai não tio", simpleDateFormat.parse("21/03/2018"), new AuthorDTO(j1));
+
+
+        p1.getComments().add(c1);
+        p1.getComments().add(c2);
+        p1.getComments().add(c3);
 
         postRepository.saveAll(Arrays.asList(p1, p2));
 
