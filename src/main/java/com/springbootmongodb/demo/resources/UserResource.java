@@ -19,9 +19,14 @@ public class UserResource {
 
     @GetMapping()
     public ResponseEntity<List<UserDTO>> findAll() {
-        List<User> users = userService.findAll();
-        List<UserDTO> usersDTO = users.stream().map(user -> new UserDTO(user)).collect(Collectors.toList());
+        List<UserDTO> usersDTO = userService.findAll();
         return ResponseEntity.ok().body(usersDTO);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> findById(@PathVariable String id) {
+        UserDTO userDTO = userService.findById(id);
+        return ResponseEntity.ok().body(userDTO);
     }
 
     @PostMapping()
