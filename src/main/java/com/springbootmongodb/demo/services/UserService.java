@@ -1,5 +1,6 @@
 package com.springbootmongodb.demo.services;
 
+import com.springbootmongodb.demo.dtos.UserDTO;
 import com.springbootmongodb.demo.entities.User;
 import com.springbootmongodb.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +14,16 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User create(User user) {
+    public UserDTO create(UserDTO user) {
         User newUser = new User();
 
         newUser.setName(user.getName());
         newUser.setEmail(user.getEmail());
 
         userRepository.save(newUser);
-        return newUser;
+
+        UserDTO userDTO = new UserDTO(newUser);
+        return userDTO;
     }
 
     public List<User> findAll() {

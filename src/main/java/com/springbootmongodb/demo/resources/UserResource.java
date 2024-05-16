@@ -1,5 +1,6 @@
 package com.springbootmongodb.demo.resources;
 
+import com.springbootmongodb.demo.dtos.UserDTO;
 import com.springbootmongodb.demo.entities.User;
 import com.springbootmongodb.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -16,14 +18,15 @@ public class UserResource {
     private UserService userService;
 
     @GetMapping()
-    public ResponseEntity<List<User>> findAll() {
+    public ResponseEntity<List<UserDTO>> findAll() {
         List<User> users = userService.findAll();
-        return ResponseEntity.ok().body(users);
+        List<UserDTO> usersDTO = users.stream().map(user -> new UserDTO(user)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(usersDTO);
     }
 
     @PostMapping()
-    public ResponseEntity<User> create(@RequestBody User user) {
-        User newUser = userService.create(user);
+    public ResponseEntity<UserDTO> create(@RequestBody UserDTO user) {
+        UserDTO newUser = userService.create(user);
         return ResponseEntity.ok().body(newUser);
     }
 }
