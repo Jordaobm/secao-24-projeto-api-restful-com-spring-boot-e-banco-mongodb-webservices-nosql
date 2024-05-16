@@ -33,6 +33,12 @@ public class UserService {
         return user.get();
     }
 
+    public void delete(String id) {
+        User user = findById(id);
+        userRepository.deleteById(id);
+    }
+
+
     public User DTOfromUser(UserDTO userDTO) {
         User user = new User();
         user.setId(userDTO.getId());
